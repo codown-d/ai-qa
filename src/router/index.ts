@@ -11,11 +11,12 @@ const routes = [
     component: Layout,
     children: [
       { path: '/', component: Home },
+      { path: '/update-faq', component: () => import('@/views/update-faq/index.vue') },
+      { path: '/setting', component: () => import('@/views/setting/index.vue') },
       { path: '/translate', component: () => import('@/views/translate/index.vue') },
       { path: '/feedback', component: () => import('@/views/feedback/index.vue') },
       { path: '/history', component: () => import('@/views/history/index.vue') },
-      { path: '/setting', component: () => import('@/views/setting/index.vue') },
-      { path: '/knowledge-base', component: () => import('@/views/knowledge-base/index.vue') },
+     { path: '/knowledge-base', component: () => import('@/views/knowledge-base/index.vue') },
       { path: '/kb', component: () => import('@/views/knowledge-base/add-modal.vue') },
     ]
   },

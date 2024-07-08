@@ -255,44 +255,6 @@ const makeEmail = () => {
 </script>
 <style lang="less">
 .translate-page {
-  .el-tabs {
-    .el-tabs__header {
-      margin-bottom: 55px;
-      height: auto;
-      border-color: #d6d6d6;
-    }
-
-    .is-active {
-      border-bottom-width: 0px !important;
-    }
-
-    .el-tabs__item,
-    .el-tabs__nav {
-      border: 0px;
-    }
-
-    .el-tabs__header .el-tabs__item:first-child {
-      border-left: 1px solid #d6d6d6;
-    }
-
-    .el-tabs__item {
-      padding: 10px 27px;
-      height: auto;
-      line-height: 41px;
-      color: #999999;
-      margin-right: 12px;
-      font-size: 28px;
-      background: #f8f9fb;
-      border-radius: 8px 8px 0px 0px;
-      border: 1px solid #d6d6d6;
-    }
-
-    .el-tabs__item.is-active {
-      color: #7e4ce1;
-      border: 1px solid #7e4ce1 !important;
-      border-bottom: 0px !important;
-    }
-  }
 
   .translate-cont {
     border-radius: 14px;

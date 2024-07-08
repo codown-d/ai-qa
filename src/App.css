@@ -43,21 +43,3 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-.flex-r-c{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.flex-c-c{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.mb24{
-    margin-bottom: 24px;
-}
-.p-r{
-    position: relative;
-}
