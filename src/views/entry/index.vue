@@ -1,7 +1,7 @@
 <template>
   <div class="login_con">
     <div class="form">
-      <div class="nav">
+      <div class="nav mt68 mb56">
         <img src="@/assets/images/purple.png" alt="" />
         <div class="logo">LOGO</div>
         <div class="ai">AI</div>
@@ -20,7 +20,9 @@
           创建账户
         </div>
       </div>
-      <div class="reset_password" v-show="currentActiveTab === 2">忘记密码</div>
+      <div class="reset_password mb36" v-show="currentActiveTab === 2">
+        忘记密码
+      </div>
       <div class="content" v-show="currentActiveTab !== 2">
         <div v-show="currentActiveTab === 1">
           <div>
@@ -93,7 +95,11 @@
           <div>
             <div class="title">密码</div>
             <div>
-              <input placeholder="请输入密码"  type="password" v-model="loginForm.password" />
+              <input
+                placeholder="请输入密码"
+                type="password"
+                v-model="loginForm.password"
+              />
             </div>
             <img
               v-show="loginForm.password"
@@ -110,7 +116,11 @@
           <div>
             <div class="title">密码</div>
             <div>
-              <input placeholder="请输入密码"  type="password" v-model="registerForm.password" />
+              <input
+                placeholder="请输入密码"
+                type="password"
+                v-model="registerForm.password"
+              />
             </div>
             <img
               v-show="registerForm.password"
@@ -177,7 +187,7 @@
           </div>
         </div>
       </div>
-      <div class="btn" @click="navigate" @enter="navigate" >
+      <div class="btn mt20" @click="navigate" @enter="navigate">
         {{
           currentActiveTab
             ? currentActiveTab === 1
@@ -186,18 +196,25 @@
             : "登录"
         }}
       </div>
-      <div class="btn_login" v-show="currentActiveTab === 2">
+      <div class="btn_login mt8 flex-r-c" v-show="currentActiveTab === 2">
         <div @click="currentActiveTab = 0">&lt;&lt;&lt;返回登录</div>
       </div>
       <div
-        class="forgotPassword"
+        class="forgotPassword flex-r-c mt8"
         @click="changeTab(2)"
         v-show="currentActiveTab !== 2"
       >
         <img src="@/assets/images/p_question.svg" />
         <div>忘记密码</div>
       </div>
-      <div class="policy">隐私政策和使用条款</div>
+
+      <div class="policy" v-show="currentActiveTab !== 2">
+        <el-checkbox
+          class="checked-policy flex-r-c"
+          v-model="checkedPolicy"
+          label="隐私政策和使用条款"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -210,6 +227,7 @@ import { ElMessage } from "element-plus";
 const router = useRouter();
 
 const currentActiveTab = ref(0);
+const checkedPolicy = ref(false);
 function changeTab(tab: number) {
   currentActiveTab.value = tab;
 }
@@ -242,10 +260,10 @@ function sendYZM(type: string) {
     ajaxEmail = registerForm.email;
     if (!ajaxEmail) {
       ElMessage({
-        type: 'error',
-        message: '请检查邮箱'
-      })
-      return
+        type: "error",
+        message: "请检查邮箱",
+      });
+      return;
     }
     YZMFlagR.value = true;
     timerIdR = setInterval(() => {
@@ -260,10 +278,10 @@ function sendYZM(type: string) {
     ajaxEmail = forgetForm.email;
     if (!ajaxEmail) {
       ElMessage({
-        type: 'error',
-        message: '请检查邮箱'
-      })
-      return
+        type: "error",
+        message: "请检查邮箱",
+      });
+      return;
     }
     YZMFlagF.value = true;
     timerIdF = setInterval(() => {
@@ -377,7 +395,7 @@ function validate(type: string) {
         msg = "请输入邮箱！";
         valid = false;
       }
-      if (!regex.test(forgetForm.email)){
+      if (!regex.test(forgetForm.email)) {
         msg = "请输入正确格式的邮箱！";
         valid = false;
       }
@@ -392,24 +410,24 @@ function validate(type: string) {
   return eventTrigger[type]();
 }
 
-function putDownEnter(e: KeyboardEvent){
-  if(e.code === "Enter") {
-      navigate()
-    }
+function putDownEnter(e: KeyboardEvent) {
+  if (e.code === "Enter") {
+    navigate();
+  }
 }
 
 onMounted(() => {
-  window.addEventListener('keydown', putDownEnter)
-  const changePasswordFlag = router.currentRoute.value?.query?.email
-  if(changePasswordFlag) {
-    currentActiveTab.value = 2
-    forgetForm.email = changePasswordFlag
+  window.addEventListener("keydown", putDownEnter);
+  const changePasswordFlag = router.currentRoute.value?.query?.email;
+  if (changePasswordFlag) {
+    currentActiveTab.value = 2;
+    forgetForm.email = changePasswordFlag;
   }
-})
+});
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', putDownEnter)
-})
+  window.removeEventListener("keydown", putDownEnter);
+});
 
 function navigate() {
   const eventTrigger: Record<number, () => void> = {
@@ -419,66 +437,66 @@ function navigate() {
           .then((res) => {
             if (res.data.code === 1000) {
               ElMessage({
-                type: 'success',
-                message: '登录成功'
-              })
-              localStorage.setItem('token', res.data.data.access_token)
-              router.push('/')
+                type: "success",
+                message: "登录成功",
+              });
+              localStorage.setItem("token", res.data.data.access_token);
+              router.push("/");
             } else {
-              throw new Error(res.data.msg)
+              throw new Error(res.data.msg);
             }
           })
-          .catch(err => {
+          .catch((err) => {
             ElMessage({
-                type: 'error',
-                message: err
-              })
+              type: "error",
+              message: err,
+            });
           });
     },
     1() {
       validate("register") &&
         register(registerForm)
-          .then((res:any) => {
-            if(res.data.code === 1000) {
+          .then((res: any) => {
+            if (res.data.code === 1000) {
               ElMessage({
-                type: 'success',
-                message: '注册成功'
-              })
+                type: "success",
+                message: "注册成功",
+              });
               resetForm("login");
               currentActiveTab.value = 0;
             } else {
               ElMessage({
-                type: 'error',
-                message: res.data.msg
-              })
+                type: "error",
+                message: res.data.msg,
+              });
             }
           })
           .catch(() => {
             ElMessage({
-                type: 'error',
-                message: '请先登录或联系管理员'
-              })
+              type: "error",
+              message: "请先登录或联系管理员",
+            });
           });
     },
     2() {
       validate("forget") &&
         updatePassword(forgetForm)
-          .then((res:any) => {
+          .then((res: any) => {
             if (res.data.code === 1000) {
               ElMessage({
-              message: "修改密码成功",
-              type: "success",
-            });
-            currentActiveTab.value = 0;
+                message: "修改密码成功",
+                type: "success",
+              });
+              currentActiveTab.value = 0;
             } else {
-              throw new Error(res.data.msg)
+              throw new Error(res.data.msg);
             }
           })
           .catch((error) => {
             ElMessage({
-                type: 'error',
-                message: error
-              })
+              type: "error",
+              message: error,
+            });
           });
     },
   };
@@ -518,6 +536,35 @@ function clearField(type: string) {
   eventTrigger[type]();
 }
 </script>
+<style lang="less">
+  .policy .checked-policy {
+    justify-content: flex-start;
+    color: #666666;
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+      background: #8A5ADE;
+      border-color:#8A5ADE;
+    }
+    .el-checkbox__input.is-checked+.el-checkbox__label{
+      color: #666666;
+    }
+    .el-checkbox__inner {
+      width: 18px;
+      height: 18px;
+      border-radius: 18px;
+      &::after{
+        
+        top: 3px;
+        left: 6px;
+      }
+      &:hover{
+        border-color:#8A5ADE;
+      }
+    }
+    .el-checkbox__label{
+      line-height: inherit;
+    }
+  }
+  </style>
 <style scoped lang="less">
 .login_con {
   display: flex;
@@ -528,18 +575,17 @@ function clearField(type: string) {
   height: 100vh;
   .form {
     width: 600px;
-    height: 750px;
-    min-height: 580px;
     border-radius: 20px;
     background: rgba(244, 244, 244, 1);
     border: 1px solid rgba(112, 112, 112, 1);
     position: relative;
+    padding: 0 62px 85px;
     .nav {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 200px;
-      margin: 6.29% auto 5.18%;
+      justify-content: center;
+      width: 100%;
+      align-items: center;
       & > img {
         width: 44px;
         height: 44px;
@@ -549,6 +595,7 @@ function clearField(type: string) {
         font-weight: 900;
         letter-spacing: 0px;
         color: rgba(14, 14, 16, 1);
+        margin: 0 15px 0 18px;
       }
       & > .ai {
         /** 文本1 */
@@ -565,7 +612,6 @@ function clearField(type: string) {
       font-size: 0.93vw;
       width: 473px;
       height: 48px;
-      margin-left: 64px;
       transition: all 0.3s ease;
       .active_tab {
         z-index: 2;
@@ -595,15 +641,15 @@ function clearField(type: string) {
       }
     }
     .reset_password {
-      width: 474px;
+      width: 100%;
       height: 48px;
       text-align: center;
-      font-size: 0.93vw;
+      font-size: 18px;
       line-height: 48px;
       border-radius: 10px;
       background: rgba(250, 250, 250, 1);
       border: 1px solid rgba(222, 222, 222, 1);
-      margin: 0 auto 3.24%;
+      box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
     }
     .content {
       width: 476px;
@@ -611,7 +657,6 @@ function clearField(type: string) {
       border-radius: 10px;
       background: rgba(255, 255, 255, 1);
       border: 1px solid rgba(201, 201, 201, 1);
-      margin: 0 auto 21px;
       & > div:not(:last-child) {
         border-bottom: 1px solid rgba(201, 201, 201, 1);
       }
@@ -685,7 +730,6 @@ function clearField(type: string) {
       }
     }
     .btn {
-      margin: 0px auto 15.5px;
       width: 476px;
       height: 49px;
       text-align: center;
@@ -704,11 +748,8 @@ function clearField(type: string) {
       border: 1px solid rgba(99, 58, 180, 1);
     }
     .btn_login {
-      width: 476px;
-      display: flex;
-      margin: auto;
+      justify-content: flex-end;
       & > div {
-        margin-left: auto;
         font-size: 16px;
         color: #7d4ced;
         cursor: pointer;
@@ -716,16 +757,11 @@ function clearField(type: string) {
     }
     .forgotPassword {
       cursor: pointer;
-      width: 110px;
-      display: flex;
-      align-items: center;
-      height: 25px;
-      font-size: 0.93vw;
-      font-weight: 400;
-      letter-spacing: 0px;
-      line-height: 24px;
+      width: 100%;
+      justify-content: flex-end;
+      font-size: 16px;
+      line-height: 26px;
       color: rgba(125, 76, 237, 1);
-      margin: 0 auto;
       & > img {
         width: 25px;
         height: 25px;
@@ -734,15 +770,12 @@ function clearField(type: string) {
       }
     }
     .policy {
-      position: absolute;
-      left: 64px;
-      bottom: 6.85%;
       font-size: 16px;
       font-weight: 400;
-      letter-spacing: 0px;
       line-height: 21px;
       color: rgba(102, 102, 102, 1);
     }
   }
+
 }
 </style>

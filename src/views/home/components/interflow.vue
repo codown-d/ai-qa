@@ -1,56 +1,59 @@
 <template>
   <div class="interflow_con">
-    <div v-show="sessionType === 'init'" class="init">
-      <div class="introduction flex-c-c">
-        <div class="cricle"></div>
-        <div class="title">
-          欢迎进入{{ knowledgeStore.userInfo?.company }}的AI知识库
-        </div>
-        <div class="desc">
-          你好，xx用户，作为你的智能伙伴，，我能写文案、想点子
-          又能陪你聊天、解答疑惑。但是只有企业认证之后，才能更了解我。认证请联系管理员!
-        </div>
-      </div>
-      <div class="flex-r-c type-list">
-        <div v-for="item in functionItems" class="flex-c-c type-list-item">
-          <div class="img-div flex-c-c" :style="`background:${item.bgColor} ;`">
-            <img :src="item.icon" alt="" />
+    <div v-show="sessionType === 'init'" class="init flex-c-c" style="justify-content: space-between;">
+      <div>
+        <div class="introduction flex-c-c">
+          <div class="cricle"></div>
+          <div class="title">
+            欢迎进入{{ knowledgeStore.userInfo?.company }}的AI知识库
           </div>
-          <div class="mb24 text">{{ item.text }}</div>
+          <div class="desc">
+            你好，xx用户，作为你的智能伙伴，，我能写文案、想点子
+            又能陪你聊天、解答疑惑。但是只有企业认证之后，才能更了解我。认证请联系管理员!
+          </div>
         </div>
-      </div>
-      <el-scrollbar class="functionItems">
-        <div
-          v-for="(item, index) in knowledgeStore.getKnowledgeList"
-          :key="index"
-          class="items_level"
-        >
-          <div
-            v-for="(w, i) in item"
-            :key="i"
-            @click="dealAffair(w, index)"
-            class="items_cell"
-          >
-            <div class="imgCon">
-              <img src="@/assets/images/txtChat.svg" />
+        <div class="flex-r-c type-list mt36">
+          <div v-for="item in functionItems" class="flex-c-c type-list-item">
+            <div
+              class="img-div flex-c-c"
+              :style="`background:${item.bgColor} ;`"
+            >
+              <img :src="item.icon" alt="" />
             </div>
-            <div>{{ w.name }}</div>
+            <div class="mb24 text">{{ item.text }}</div>
           </div>
         </div>
-      </el-scrollbar>
-      <div style="height: 160px;"></div>
-      <div class="init_typeBox">
-        <inputField @reqResponse="reqResponse" />
+        <el-scrollbar class="functionItems" v-if="false">
+          <div
+            v-for="(item, index) in knowledgeStore.getKnowledgeList"
+            :key="index"
+            class="items_level"
+          >
+            <div
+              v-for="(w, i) in item"
+              :key="i"
+              @click="dealAffair(w, index)"
+              class="items_cell"
+            >
+              <div class="imgCon">
+                <img src="@/assets/images/txtChat.svg" />
+              </div>
+              <div>{{ w.name }}</div>
+            </div>
+          </div>
+        </el-scrollbar>
       </div>
-      <footer>
-        <img src="@/assets/images/logo.png" />
-        <div>齐光同辰企业AI知识库</div>
-      </footer>
+      <div class="interflow_footer">
+        <div class="init_typeBox">
+          <inputField @reqResponse="reqResponse" />
+        </div>
+        <footer>
+          <img src="@/assets/images/logo.png" />
+          <div>齐光同辰企业AI知识库</div>
+        </footer>
+      </div>
     </div>
-    <div
-      v-show="sessionType === 'assign' || sessionType === 'random'"
-      class="assign"
-    >
+    <div v-show="sessionType === 'assign' || sessionType === 'random'" class="assign" >
       <div class="title" v-show="sessionType === 'assign'">
         {{ knowledgeStore.currentBase }}
       </div>
@@ -88,14 +91,14 @@ const currentMessageList = ref();
 
 watch(
   currentBase,
-    (newVal, oldVal) => {
+  (newVal, oldVal) => {
     getDefaultMessage();
   },
   { immediate: true }
 );
 
 function getDefaultMessage() {
-    console.log(currentBase.value)
+  console.log(currentBase.value);
   getHistoricMessage(currentBase.value)
     .then((res) => {
       currentMessageList.value = res.data.data.map((item) => {
@@ -351,12 +354,13 @@ const Message = defineComponent({
 
   .init {
     position: relative;
-
+    height: 100%;
+.interflow_footer{
+  height: 120px;
+  width: 100%;
+    padding: 0 13px;
+}
     .init_typeBox {
-      position: absolute;
-      bottom: 79px;
-      left: 0;
-      right: 0;
       margin: auto;
     }
   }
@@ -389,7 +393,6 @@ const Message = defineComponent({
 
     .assign_typeBox {
       height: 58px;
-      padding-right: 27px;
     }
   }
 }
@@ -440,6 +443,7 @@ const Message = defineComponent({
     width: 25.85px;
     height: 23.27px;
   }
+
   .text {
     font-size: 16px;
     font-weight: 500;

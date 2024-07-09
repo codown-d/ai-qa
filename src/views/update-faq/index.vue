@@ -192,6 +192,7 @@ const selectItem = (val: string) => {
 
         .el-sub-menu__title,
         .el-menu-item {
+            font-size: 18px;
             &:hover {
                 color: #7e4ce1;
                 background: #efe7f6;

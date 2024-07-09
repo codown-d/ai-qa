@@ -40,8 +40,12 @@ const routes = [
         component: () => import("@/views/knowledge-base/index.vue"),
       },
       {
-        path: "/add-knowledge",
+        path: "/knowledge-add",
         component: () => import("@/views/knowledge-base/add-modal.vue"),
+      },
+      {
+        path: "/knowledge-lib",
+        component: () => import("@/views/knowledge-lib/index.vue"),
       },
     ],
   },
