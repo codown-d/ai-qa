@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import Side from "@/views/home/components/side.vue";
-import { getKnowledgeBase } from "@/config/api.ts";
+import { getKnowledgeBase } from "@/config/api";
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 
 function getRandomHexColor() {
@@ -25,7 +25,7 @@ function getRandomHexColor() {
 
 
   getKnowledgeBase()
-  .then((res) => {
+      .then((res) => {
     useKnowledgeStore().setKnowledgeList(res.data.data.map((item: any) => ({...item, bgColor: getRandomHexColor()})))
   })
   .catch(() => {});

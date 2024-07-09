@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { getInfo } from "@/config/user"
+  import { getInfo } from "@/config/api"
   import { useRouter } from 'vue-router'
   import { getToken } from "@/utils/tool"
   import {useKnowledgeStore} from "@/store/useKnowledgeStore"

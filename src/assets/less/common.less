@@ -27,22 +27,22 @@
   cursor: pointer;
 }
 
-.flex-r-c{
+.flex-r-c {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-.flex-c-c{
+.flex-c-c {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.mb24{
+.mb24 {
   margin-bottom: 24px;
 }
-.p-r{
+.p-r {
   position: relative;
 }
 /* tab-css */
@@ -87,3 +87,23 @@
 }
 
 /* tab-css */
+.header-title {
+  font-size: 24px;
+  height: 42px;
+  line-height: 42px;
+
+  color: #333333;
+  padding-left: 14px;
+  position: relative;
+  &::after {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    background-color: #7e4ce1;
+    content: "";
+    width: 4px;
+    height: 20px;
+    border-radius: 2.5px;
+    margin-top: -10px;
+  }
+}

@@ -1,27 +1,30 @@
-import { defineConfig } from 'vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import vue from '@vitejs/plugin-vue'
-import path from 'path';
+import { defineConfig } from "vite";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import vue from "@vitejs/plugin-vue";
+import path from "path";
 import postcsspxtoviewport from "postcss-px-to-viewport";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   // base: '/ai',
-  plugins: [vue(), AutoImport({
-    resolvers: [ElementPlusResolver()],
-  }),
-  Components({
-    resolvers: [ElementPlusResolver()],
-  })],
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
   resolve: {
-    alias:[
+    alias: [
       {
-        find:'@',
-        replacement: path.resolve(__dirname,'src')
-      }
-    ]
+        find: "@",
+        replacement: path.resolve(__dirname, "src"),
+      },
+    ],
   },
   css: {
     postcss: {
@@ -45,11 +48,11 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api': {
-        target: 'http://120.25.121.63:8000/',
+      "/api": {
+        target: "http://120.25.121.63:8000",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "")
-      }
-    }
-  }
-})
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
+});

@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElAutocomplete: typeof import('element-plus/es')['ElAutocomplete']
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
@@ -28,6 +29,8 @@ declare module 'vue' {
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Feedback: typeof import('./src/components/feedback/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    MenuItem: typeof import('./src/components/menu-item.vue')['default']
+    MenuList: typeof import('./src/components/menu-list.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

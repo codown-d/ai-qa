@@ -3,19 +3,34 @@
     <div v-show="sessionType === 'init'" class="init">
       <div class="introduction flex-c-c">
         <div class="cricle"></div>
-        <div class="title">欢迎进入{{ knowledgeStore.userInfo?.company }}的AI知识库</div>
-        <div class="desc">你好，xx用户，作为你的智能伙伴，，我能写文案、想点子 又能陪你聊天、解答疑惑。但是只有企业认证之后，才能更了解我。认证请联系管理员! </div>
+        <div class="title">
+          欢迎进入{{ knowledgeStore.userInfo?.company }}的AI知识库
+        </div>
+        <div class="desc">
+          你好，xx用户，作为你的智能伙伴，，我能写文案、想点子
+          又能陪你聊天、解答疑惑。但是只有企业认证之后，才能更了解我。认证请联系管理员!
+        </div>
       </div>
       <div class="flex-r-c type-list">
         <div v-for="item in functionItems" class="flex-c-c type-list-item">
-          <div class="img-div flex-c-c" :style="`background:${item.bgColor} ;`"><img :src="item.icon" alt=""></div>
+          <div class="img-div flex-c-c" :style="`background:${item.bgColor} ;`">
+            <img :src="item.icon" alt="" />
+          </div>
           <div class="mb24 text">{{ item.text }}</div>
         </div>
-
       </div>
       <el-scrollbar class="functionItems">
-        <div v-for="(item, index) in knowledgeStore.getKnowledgeList" :key="index" class="items_level">
-          <div v-for="(w, i) in item" :key="i" @click="dealAffair(w, index)" class="items_cell">
+        <div
+          v-for="(item, index) in knowledgeStore.getKnowledgeList"
+          :key="index"
+          class="items_level"
+        >
+          <div
+            v-for="(w, i) in item"
+            :key="i"
+            @click="dealAffair(w, index)"
+            class="items_cell"
+          >
             <div class="imgCon">
               <img src="@/assets/images/txtChat.svg" />
             </div>
@@ -23,24 +38,30 @@
           </div>
         </div>
       </el-scrollbar>
-      <div >
-         <div class="init_typeBox">
+      <div style="height: 160px;"></div>
+      <div class="init_typeBox">
         <inputField @reqResponse="reqResponse" />
       </div>
       <footer>
         <img src="@/assets/images/logo.png" />
         <div>齐光同辰企业AI知识库</div>
       </footer>
-      </div>
-     
     </div>
-    <div v-show="sessionType === 'assign' || sessionType === 'random'" class="assign">
-      <div class="title" v-show="sessionType === 'assign'">{{ knowledgeStore.currentBase }}</div>
+    <div
+      v-show="sessionType === 'assign' || sessionType === 'random'"
+      class="assign"
+    >
+      <div class="title" v-show="sessionType === 'assign'">
+        {{ knowledgeStore.currentBase }}
+      </div>
       <el-divider class="divider" v-show="sessionType === 'assign'" />
-      <el-scrollbar :class="[
-        'messageBox',
-        sessionType === 'assign' ? 'assign_scrollbar' : '',
-      ]" ref="scrollbarRef">
+      <el-scrollbar
+        :class="[
+          'messageBox',
+          sessionType === 'assign' ? 'assign_scrollbar' : '',
+        ]"
+        ref="scrollbarRef"
+      >
         <Message :messageList="currentMessageList" />
       </el-scrollbar>
       <div class="assign_typeBox">
@@ -57,35 +78,39 @@ import oppositeRound from "./oppositeRound.vue";
 import { storeToRefs } from "pinia";
 import { useKnowledgeStore } from "@/store/useKnowledgeStore";
 import { getHistoricMessage, getAIResponse } from "@/config/api.ts";
-import { getHour } from "@/utils/tool"
-import type { ElScrollbar } from 'element-plus';
+import { getHour } from "@/utils/tool";
+import type { ElScrollbar } from "element-plus";
 import { ElMessage } from "element-plus";
 
 const knowledgeStore = useKnowledgeStore();
-console.log('knowledgeStore.userInfo', knowledgeStore.userInfo);
-
 const { sessionType, currentBase } = storeToRefs(knowledgeStore);
+const currentMessageList = ref();
 
-const currentMessageList = ref()
-
-watch(currentBase, (newVal, oldVal) => {
-  getDefaultMessage()
-}, { immediate: true })
+watch(
+  currentBase,
+    (newVal, oldVal) => {
+    getDefaultMessage();
+  },
+  { immediate: true }
+);
 
 function getDefaultMessage() {
+    console.log(currentBase.value)
   getHistoricMessage(currentBase.value)
     .then((res) => {
-      currentMessageList.value = res.data.data.map(item => {
-        item.bot_response = item.bot_response.replace(/\n/g, '<br />')
+      currentMessageList.value = res.data.data.map((item) => {
+        item.bot_response = item.bot_response.replace(/\n/g, "<br />");
         return {
           ...item,
-          timestamp: getHour(item.timestamp)
-        }
-      })
-      sessionType.value === "assign" ? knowledgeStore.messageList = currentMessageList.value : knowledgeStore.randomMessageList = currentMessageList.value
-      scrollToBottom()
+          timestamp: getHour(item.timestamp),
+        };
+      });
+      sessionType.value === "assign"
+        ? (knowledgeStore.messageList = currentMessageList.value)
+        : (knowledgeStore.randomMessageList = currentMessageList.value);
+      scrollToBottom();
     })
-    .catch(() => { });
+    .catch(() => {});
 }
 
 const functionItems = [
@@ -122,51 +147,57 @@ const functionItems = [
 ];
 
 function dealAffair(item: any, i: number) {
-  knowledgeStore.menuData.flag = true
-  knowledgeStore.menuData.index = `${++i}`
-  knowledgeStore.sessionType = "assign"
-  knowledgeStore.currentBase = item.name
+  knowledgeStore.menuData.flag = true;
+  knowledgeStore.menuData.index = `${++i}`;
+  knowledgeStore.sessionType = "assign";
+  knowledgeStore.currentBase = item.name;
 }
 
-const scrollbarRef = ref(null) as unknown as typeof ElScrollbar
+const scrollbarRef = ref(null) as unknown as typeof ElScrollbar;
 
 function scrollToBottom() {
   nextTick(() => {
-    scrollbarRef.value.setScrollTop(scrollbarRef.value.wrapRef.scrollHeight)
-  })
+    scrollbarRef.value.setScrollTop(scrollbarRef.value.wrapRef.scrollHeight);
+  });
 }
 
 function reqResponse() {
   getAIResponse({
     user_input: knowledgeStore.currentReq,
-    kb_name: knowledgeStore.currentBase
-  }).then((res) => {
-    if (res.data.code === 1000) {
-      let reqItems
-      if (knowledgeStore.sessionType === "assign") {
-        reqItems = knowledgeStore.messageList.filter(item => item.type === 'req')
-      } else {
-        reqItems = knowledgeStore.randomMessageList.filter(item => item.type === 'req')
-      }
-      reqItems.forEach(w => {
-        delete w.type
-        w.bot_response = res.data.data.response.replace(/\n/g, '<br />')
-        w.id = res.data.data.message_id
-      })
-      scrollToBottom()
-    } else {
-      ElMessage({
-        type: 'error',
-        message: res.data.msg
-      })
-    }
-  }).catch(err => {
-    ElMessage({
-      type: 'error',
-      message: '请先登录或联系管理员'
-    })
+    kb_name: knowledgeStore.currentBase,
   })
-  scrollToBottom()
+    .then((res) => {
+      if (res.data.code === 1000) {
+        let reqItems;
+        if (knowledgeStore.sessionType === "assign") {
+          reqItems = knowledgeStore.messageList.filter(
+            (item) => item.type === "req"
+          );
+        } else {
+          reqItems = knowledgeStore.randomMessageList.filter(
+            (item) => item.type === "req"
+          );
+        }
+        reqItems.forEach((w) => {
+          delete w.type;
+          w.bot_response = res.data.data.response.replace(/\n/g, "<br />");
+          w.id = res.data.data.message_id;
+        });
+        scrollToBottom();
+      } else {
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+        });
+      }
+    })
+    .catch((err) => {
+      ElMessage({
+        type: "error",
+        message: "请先登录或联系管理员",
+      });
+    });
+  scrollToBottom();
 }
 
 const Message = defineComponent({
@@ -174,23 +205,39 @@ const Message = defineComponent({
   props: {
     messageList: {
       type: Array as PropType<any[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   render() {
     const children = [];
     // 使用 for 循环来生成多个虚拟节点
     for (let i = 0; i < this.messageList?.length; i++) {
-      const item = this.messageList[i]
+      const item = this.messageList[i];
       if (!item.type) {
         children.push(
-          h('div', { class: 'ourRound', key: `ourRound-${i}` }, h(ourRound, { content: item })),
-          h('div', { class: 'oppositeRound', key: `oppositeRound-${i}` }, h(oppositeRound, { content: item, loc: i }))
+          h(
+            "div",
+            { class: "ourRound", key: `ourRound-${i}` },
+            h(ourRound, { content: item })
+          ),
+          h(
+            "div",
+            { class: "oppositeRound", key: `oppositeRound-${i}` },
+            h(oppositeRound, { content: item, loc: i })
+          )
         );
       } else {
         children.push(
-          h('div', { class: 'ourRound', key: `ourRound-${i}` }, h(ourRound, { content: item })),
-          h('div', { class: 'oppositeRound', key: `ourRound-${i}` }, h(oppositeRound, { content: item, loc: i }))
+          h(
+            "div",
+            { class: "ourRound", key: `ourRound-${i}` },
+            h(ourRound, { content: item })
+          ),
+          h(
+            "div",
+            { class: "oppositeRound", key: `ourRound-${i}` },
+            h(oppositeRound, { content: item, loc: i })
+          )
         );
       }
     }
@@ -251,7 +298,7 @@ const Message = defineComponent({
       justify-content: space-between;
       margin-bottom: 14px;
 
-      &>div {
+      & > div {
         cursor: pointer;
         width: 325px;
         margin-right: 14px;
@@ -265,7 +312,7 @@ const Message = defineComponent({
         border: 1px solid rgba(226, 226, 226, 1);
         font-size: 16px;
 
-        &>.imgCon {
+        & > .imgCon {
           width: 69px;
           height: 67px;
           border-radius: 12px;
@@ -275,14 +322,14 @@ const Message = defineComponent({
           align-items: center;
           background-color: rgba(241, 231, 229, 1);
 
-          &>img {
+          & > img {
             width: 35px;
             height: 30px;
           }
         }
       }
 
-      &>div:last-child {
+      & > div:last-child {
         margin-right: auto;
       }
     }
@@ -311,7 +358,6 @@ const Message = defineComponent({
       left: 0;
       right: 0;
       margin: auto;
-      padding-right: 27px;
     }
   }
 
@@ -376,10 +422,10 @@ const Message = defineComponent({
   border-radius: 17px;
   opacity: 1;
 
-  background: #F6F6F8;
+  background: #f6f6f8;
 
   box-sizing: border-box;
-  border: 1px dashed #E2E2E2;
+  border: 1px dashed #e2e2e2;
 
   .img-div {
     width: 69px;
@@ -392,12 +438,11 @@ const Message = defineComponent({
 
   img {
     width: 25.85px;
-height: 23.27px;
-    
-
-
-  }.text{
-font-size: 16px;
-font-weight: 500;
+    height: 23.27px;
+  }
+  .text {
+    font-size: 16px;
+    font-weight: 500;
+  }
 }
-}</style>
+</style>
