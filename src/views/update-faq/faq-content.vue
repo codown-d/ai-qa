@@ -71,16 +71,13 @@ getData();
     &:after{
         content: '';
         position: absolute;
-        left: 0px;
+        left: -4px;
         top: 16px;
-        margin-top: -10px;
-        text-align: center;
-        line-height: 20px;
-        width: 20px;
-        border-radius: 4px;
-        height: 20px;
-        background: #EFE7F6  url(../../assets/images/b_message.svg) no-repeat center center;
-        background-size: 60% 60%;
+        margin-top: -14px;
+        width: 32px;
+        height: 36px;
+        background: url(../../assets/images/wen.png) no-repeat center center;
+        background-size: 100% 100%;
     }
   }
   .issue {
