@@ -12,8 +12,6 @@ declare module 'vue' {
     APreInput: typeof import('./src/components/a-pre-input.vue')['default']
     ASegmented: typeof import('./src/components/a-segmented.vue')['default']
     ATable: typeof import('./src/components/a-table.vue')['default']
-    copy: typeof import('./src/components/menu-list copy.vue')['default']
-    ElAutocomplete: typeof import('element-plus/es')['ElAutocomplete']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
@@ -26,8 +24,6 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPagination: typeof import('element-plus/es')['ElPagination']
-    ElRadio: typeof import('element-plus/es')['ElRadio']
-    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSegmented: typeof import('element-plus/es')['ElSegmented']
     ElSelect: typeof import('element-plus/es')['ElSelect']
@@ -36,14 +32,10 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
-    ElUpload: typeof import('element-plus/es')['ElUpload']
     Feedback: typeof import('./src/components/feedback/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MenuList: typeof import('./src/components/menu-list.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
